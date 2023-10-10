@@ -14,10 +14,10 @@ struct Node {
 
 int josephus(int n, int k) {
     if (n == 1) {
-        return 0; 
+        return 0;
     }
     else {
-       /* return (josephus(n - 1, k) + k - 1) % n + 1;*/
+        /* return (josephus(n - 1, k) + k - 1) % n + 1;*/
         int position = 0;
         for (int i = 1; i <= n; ++i) {
             position = (position + k) % i;
@@ -27,15 +27,15 @@ int josephus(int n, int k) {
     }
 }
 
-int josephus_sizeerwise(int n, int k) {
+int josephus_counterwise(int n, int k) {
     int newPos = 0;
     int prevPos = 0;
     if (n == 0) {
         return 1;
     }
     else {
-         prevPos = josephus(n - 1, k); 
-        newPos = (prevPos - k) % n;  
+        prevPos = josephus(n - 1, k);
+        newPos = (prevPos - k) % n;
         if (newPos <= 0) {
             newPos += n;
         }
@@ -333,13 +333,13 @@ pair<int, T>Problem_Solution_For_ClockWise(ringlist<T> input, unsigned step) {
         return make_pair(lastIdx, input.getElem(lastIdx)->data);
     }
     int pos = josephus(input.getsize(), step);
-    Node<T>* front, *back;
+    Node<T>* front, * back;
     front = input.getHead();
     back = input.getHead();
     while (input.getsize() > 1) {
         for (int i = 1; i < step; i++) {
             back = front;
-                front = front->next;
+            front = front->next;
 
         }
         input.delNode(front);
@@ -350,21 +350,21 @@ pair<int, T>Problem_Solution_For_ClockWise(ringlist<T> input, unsigned step) {
 template<typename T>
 pair<int, T>Problem_Solution_For_sizeerWise(ringlist<T> input, unsigned step) {
     if (step == 1) {
-                    return make_pair(0, input.getElem(0)->data);
-                }
-    int pos = josephus_sizeerwise(input.getsize(), step);
+        return make_pair(0, input.getElem(0)->data);
+    }
+    int pos = josephus_counterwise(input.getsize(), step);
     Node<T>* front, * back;
     front = input.getTail();
     back = input.getTail();
-        while (input.getsize() > 1) {
-            for (int i = 1; i < step; i++) {
-                back = front;
-                front = front->prev;
-            }
-            input.delNode(front);
-            front = back->prev;
+    while (input.getsize() > 1) {
+        for (int i = 1; i < step; i++) {
+            back = front;
+            front = front->prev;
         }
-        return make_pair(pos, front->data);
+        input.delNode(front);
+        front = back->prev;
+    }
+    return make_pair(pos, front->data);
 };
 template<typename T>
 pair<int, T> Problem_Solution(ringlist<T> input, direction dir, unsigned step) {
@@ -395,15 +395,15 @@ int main() {
 
     auto input = new ringlist<int>;
     for (size_t i = 0; i < size; i++) {
-        input->addTail(rand()%101);
+        input->addTail(rand() % 101);
     }
 
     try {
         auto pairClockWise = Problem_Solution(*input, clockwise, step);
-        cout << "Направление по часовой стрелке: " << pairClockWise.first << ' ' << pairClockWise.second << endl;
+        cout << "Направление по часовой: " << pairClockWise.first << ' ' << pairClockWise.second << endl;
 
         auto paircounterClockWise = Problem_Solution(*input, sizeerclockwise, step);
-        cout << "Против часовой стрелки: " << paircounterClockWise.first << ' ' << paircounterClockWise.second << endl;
+        cout << "Против часовой: " << paircounterClockWise.first << ' ' << paircounterClockWise.second << endl;
     }
     catch (string error) {
         cout << error << endl;
