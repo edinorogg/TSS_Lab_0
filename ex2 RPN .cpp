@@ -2,7 +2,8 @@
 #include<fstream>
 #include <string>
 #include <cctype>
-#include<ctime>
+#include<ctime
+#include<cmath>
 #include <sstream>
 using namespace std;
 
@@ -301,7 +302,7 @@ int GetResultRPN(string& str_out) {
 					res = n2 % n1;
 				}
 				break;
-			case '^': res = n2 ^ n1; break;
+			case '^': res = pow(num2, num1); 
 			default: throw (string)"Ошибка";
 			}
 			result.Push(res);
